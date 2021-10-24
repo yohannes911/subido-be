@@ -1,0 +1,42 @@
+info:
+  app:
+    description: Subi-dubi todo management application
+    name: subido-app
+    version: "${project.version}"
+
+management:
+  endpoints:
+    enabled-by-default: true
+    web:
+      base-path: /
+      exposure:
+        include: "info,health"
+  endpoint:
+    health:
+      show-details: always
+    info:
+      enabled: true
+  server:
+    port: 8081
+
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: "jdbc:postgresql://localhost:54320/postgres?currentSchema=subido"
+    username: postgres
+    password: a
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        show_sql: false
+        use_sql_comments: false
+
+springdoc:
+  model-converters:
+    pageable-converter:
+      enabled: true
+  show-actuator: false
+  writer-with-default-pretty-printer: true

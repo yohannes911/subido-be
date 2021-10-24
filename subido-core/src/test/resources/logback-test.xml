@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true">
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%clr(%d{HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr([%15.15t]){faint} %clr(%-28.28logger{28}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <logger name="hu.eir.doc.core" level="DEBUG"/>
+    <logger name="org" level="INFO"/>
+    <logger name="io" level="INFO"/>
+    <logger name="com" level="INFO"/>
+    <logger name="org.springframework.test.context.support.AbstractContextLoader" level="WARN"/>
+    <logger name="org.springframework.data.elasticsearch.core.QUERY" level="INFO"/>
+    <logger name="org.springframework.data.convert.CustomConversions" level="ERROR"/>
+
+    <logger name="org.springframework.jdbc.core.JdbcTemplate" level="DEBUG"/>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>
