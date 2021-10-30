@@ -9,6 +9,7 @@ object Config {
     const val springBootVersion = "2.5.6"
     const val springDataJpaVersion = "2.5.6"
     const val springDataR2dbcVersion = "2.5.6"
+    const val swaggerVersion = "2.1.11"
 
     const val gradleGitPropertiesPluginVersion = "2.3.1"
     const val openapiGeneratorPluginVersion = "5.2.1"
@@ -28,6 +29,7 @@ object Config {
         const val spring_boot_starter_webflux = "org.springframework.boot:spring-boot-starter-webflux"
 
         const val springdoc_openapi_webflux_ui = "org.springdoc:springdoc-openapi-webflux-ui:$openapiWebfluxVersion"
+        const val swagger_annotations = "io.swagger.core.v3:swagger-annotations:$swaggerVersion"
 
         const val spring_boot_configuration_processor = "org.springframework.boot:spring-boot-configuration-processor"
 

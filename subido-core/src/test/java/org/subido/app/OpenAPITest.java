@@ -6,7 +6,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.autoconfigure.r2dbc.R2dbcAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,7 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.subido.core.Core;
-import org.subido.core.repository.ToDoItemRepository;
+import org.subido.core.repository.TodoItemRepository;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -26,14 +25,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
 @ContextConfiguration(initializers = ConfigDataApplicationContextInitializer.class)
-@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, R2dbcAutoConfiguration.class})
+@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 @ComponentScan(basePackageClasses = Core.class)
 @SpringBootTest(classes = OpenAPITest.class)
 @AutoConfigureWebTestClient
 class OpenAPITest {
 
     @MockBean
-    ToDoItemRepository toDoItemRepository;
+    TodoItemRepository toDoItemRepository;
 
     @Test
     void openApiTest(@Autowired WebTestClient webClient) throws Exception {

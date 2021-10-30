@@ -7,18 +7,19 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
-public class ListRequestDto {
+public class QueryRequestDto {
 
     private Integer offset;
     private Integer limit;
     private List<Sort> sortList;
 
     public Pageable getPageable() {
-        int offset = this.offset == null ? 0 : this.offset;
-        int limit = this.limit == 0 ? 1 : this.limit;
+        int offset = Objects.requireNonNullElse(this.offset, 0);
+        int limit = Objects.requireNonNullElse(this.limit, 5);
         // TODO: implement
         Sort sort = Sort.unsorted();
         return PageRequest.of(offset * limit, limit + 1, sort);

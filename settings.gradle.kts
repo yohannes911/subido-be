@@ -5,7 +5,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = "subido-backend"
+rootProject.name = "subido-be"
 
 include(
     "subido-model",

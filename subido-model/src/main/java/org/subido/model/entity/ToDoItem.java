@@ -14,13 +14,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
 @Entity
 @Table(name = "todo_item")
-public class ToDoItem {
+public class TodoItem {
 
     @Getter
     @Id
@@ -51,10 +50,10 @@ public class ToDoItem {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof ToDoItem)) {
+        if (!(o instanceof TodoItem)) {
             return false;
         }
-        ToDoItem toDoItem = (ToDoItem) o;
+        TodoItem toDoItem = (TodoItem) o;
         return Objects.equals(id, toDoItem.id) &&
                 name.equals(toDoItem.name) &&
                 deadline.equals(toDoItem.deadline) &&

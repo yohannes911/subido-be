@@ -16,9 +16,6 @@ plugins {
 dependencies {
     implementation(project(":subido-core"))
     implementation(Config.Libs.spring_boot_starter_actuator)
-    implementation(Config.Libs.spring_boot_starter_undertow)
-    // implementation(Config.Libs.spring_boot_starter_reactor_netty)
-    // implementation(Config.Libs.spring_boot_starter_tomcat)
 
     testImplementation(Config.TestLibs.spring_boot_starter_test)
 }
