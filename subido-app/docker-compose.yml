@@ -1,15 +1,40 @@
 version: '3.3'
 
 networks:
-  subido:
+  subido-docker:
 
 services:
   subido:
     image: subido:latest
     hostname: subido
     container_name: subido
-  ports:
-      - "18080:8080"
-      - "18081:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql:5432/postgres?currentSchema=subido
+    ports:
+      - "8080:8080"
+      - "8081:8081"
     networks:
-      - subido
+      - subido-docker
+
+  subido-fe:
+    image: subido-fe:latest
+    hostname: subido-fe
+    container_name: subido-fe
+    ports:
+      - "4200:80"
+    networks:
+      - subido-docker
+
+  postgresql:
+    image: postgres:12.8-alpine
+    hostname: postgresql
+    container_name: postgresql
+    networks:
+      - subido-docker
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=a
+    ports:
+      - "5432:5432"
+    volumes:
+      - /opt/postgres-12.8-alpine/data:/var/lib/postgresql/data
