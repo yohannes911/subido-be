@@ -1,46 +1,31 @@
 package org.subido.core.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.subido.core.dto.CreateTodoItemDto;
+import org.subido.core.dto.QueryRequestDto;
+import org.subido.core.dto.QueryResponseDto;
 import org.subido.core.dto.TodoItemDto;
+import org.subido.core.dto.TodoSpecification;
 import org.subido.core.dto.UpdateTodoItemDto;
 import org.subido.core.repository.TodoItemRepository;
 import org.subido.model.entity.TodoItem;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 import static org.subido.core.util.BuildUtils.build;
 
 @RequiredArgsConstructor
 @Service
-public class TodoItemService implements ApplicationContextAware {
+public class TodoItemService {
 
     private final TodoItemRepository toDoItemRepository;
-
-    private ApplicationContext applicationContext;
-
-    @Override
-    public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
-
-    @PostConstruct
-    void init() {
-        System.out.println(">>> " + applicationContext.getBeansOfType(ObjectMapper.class).entrySet().iterator().next().getValue()
-                .isEnabled(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS));
-    }
 
     @Transactional(readOnly = true)
     public Mono<TodoItemDto> findById(final Long id) {
@@ -51,9 +36,17 @@ public class TodoItemService implements ApplicationContextAware {
     }
 
     @Transactional(readOnly = true)
-    public Flux<TodoItemDto> query(final Pageable pageable) {
-        Page<TodoItem> page = toDoItemRepository.findAll(pageable);
-        return Flux.fromIterable(page.map(TodoItemService::toDto));
+    public Mono<QueryResponseDto> query(List<QueryRequestDto.FieldFilterDto> fieldFilters, final Pageable pageable) {
+        Specification<TodoItem> specification = null;
+        if (!fieldFilters.isEmpty()) {
+            specification = new TodoSpecification(fieldFilters.get(0));
+            for (int i = 1; i < fieldFilters.size(); i++) {
+                specification = specification.and(new TodoSpecification(fieldFilters.get(i)));
+            }
+        }
+        Page<TodoItem> page = toDoItemRepository.findAll(specification, pageable);
+        return Mono.just(page.map(TodoItemService::toDto))
+                .map(QueryResponseDto::new);
     }
 
     @Transactional

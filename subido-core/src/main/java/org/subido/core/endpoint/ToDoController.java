@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.subido.core.dto.CreateTodoItemDto;
 import org.subido.core.dto.QueryRequestDto;
+import org.subido.core.dto.QueryResponseDto;
 import org.subido.core.dto.TodoItemDto;
 import org.subido.core.dto.UpdateTodoItemDto;
 import org.subido.core.service.TodoItemService;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.util.function.Tuples;
 
@@ -41,9 +41,9 @@ public class TodoController {
 
     @Operation(summary = "Query Todo items with criteria")
     @PostMapping(path = "query", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Flux<TodoItemDto> queryTodoItems(final @RequestBody @Validated QueryRequestDto request) {
+    public Mono<QueryResponseDto> queryTodoItems(final @RequestBody @Validated QueryRequestDto request) {
         return Mono.just(request)
-                .flatMapMany(req -> todoItemService.query(req.getPageable()));
+                .flatMap(req -> todoItemService.query(req.getFieldFilters(), req.getPageable()));
     }
 
     @Operation(summary = "Create Todo item")

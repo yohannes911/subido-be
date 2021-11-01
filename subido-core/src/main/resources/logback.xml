@@ -13,8 +13,8 @@
     </appender>
 
     <logger name="org.subido" level="DEBUG"/>
-    <logger name="io" level="INFO"/>
-    <logger name="com" level="INFO"/>
+    <logger name="org.hibernate.SQL" level="DEBUG"/>
+    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE"/>
 
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
